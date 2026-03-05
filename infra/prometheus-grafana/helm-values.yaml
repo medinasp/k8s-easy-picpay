@@ -1,0 +1,12 @@
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelector: {}
+    retention: 7d
+grafana:
+  adminPassword: admin
+  dashboards:
+    default:
+      kubernetes-cluster:
+        gnetId: 315
+      argocd:
+        gnetId: 14584
