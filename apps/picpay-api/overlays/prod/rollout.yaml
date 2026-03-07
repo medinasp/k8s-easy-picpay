@@ -26,6 +26,31 @@ spec:
             httpGet:
               path: /ready
               port: 8080
+    env:
+      - name: ConnectionStrings__DefaultConnection
+        valueFrom:
+          secretKeyRef:
+            name: easypicpay-secrets
+            key: ConnectionStrings__DefaultConnection
+      - name: Jwt__Key
+        valueFrom:
+          secretKeyRef:
+            name: easypicpay-secrets
+            key: Jwt__Key
+      - name: Jwt__Issuer
+        valueFrom:
+          secretKeyRef:
+            name: easypicpay-secrets
+            key: Jwt__Issuer
+      - name: Jwt__Audience
+        valueFrom:
+          secretKeyRef:
+            name: easypicpay-secrets
+            key: Jwt__Audience
+      - name: ASPNETCORE_ENVIRONMENT
+        value: "Development"
+      - name: ASPNETCORE_URLS
+        value: "http://+:8080"
   strategy:
     canary:
       steps:
