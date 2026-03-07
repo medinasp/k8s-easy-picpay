@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easypicpay-postgres
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: easypicpay-postgres
+  template:
+    metadata:
+      labels:
+        app: easypicpay-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: root
+            - name: POSTGRES_DB
+              value: EasyPicPayDB
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: easypicpay-postgres
+  namespace: production
+spec:
+  selector:
+    app: easypicpay-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
