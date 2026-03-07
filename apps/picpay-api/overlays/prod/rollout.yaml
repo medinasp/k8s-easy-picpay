@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: eneiasmedina/easypicpay-api:1fd53dea01b0074de777f33487823cce803136a7
+          image: eneiasmedina/easypicpay-api:1ec7ca2f937ee48c9fbae058a3ea6e03a96a196d
           ports:
             - containerPort: 8080
           env:
