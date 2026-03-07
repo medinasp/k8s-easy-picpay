@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: picpay-api
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: picpay-api
+  template:
+    metadata:
+      labels:
+        app: picpay-api
+    spec:
+      containers:
+        - name: api
+          image: eneiasmedina/easypicpay-api:latest
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+  strategy:
+    canary:
+      steps:
+        - setWeight: 20
+        - pause: { duration: 1m }
+        - setWeight: 50
+        - pause: { duration: 1m }
+        - analysis:
+            templates:
+              - templateName: success-rate
