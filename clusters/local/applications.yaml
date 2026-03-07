@@ -1,12 +1,22 @@
-# Aplique via kubectl ou edite no painel do ArgoCD
+kubectl apply -f - <<EOF
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: picpay-api-prod
   namespace: argocd
 spec:
+  project: default
   source:
     repoURL: https://github.com/medinasp/k8s-easy-picpay.git
-    targetRevision: HEAD
+    targetRevision: main
     path: apps/picpay-api/overlays/prod
-    # NÃO colocar token aqui! O segredo cuida disso.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+EOF
