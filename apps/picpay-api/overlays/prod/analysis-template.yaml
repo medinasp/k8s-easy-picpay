@@ -13,9 +13,11 @@ spec:
         prometheus:
           address: http://monitoring-kube-prometheus-prometheus.monitoring:9090
           query: |
-            sum(rate(
+            scalar(
+              sum(rate(
                 http_requests_total{namespace="production", status=~"2.*"}[1m]
               )) /
               sum(rate(
                 http_requests_total{namespace="production"}[1m]
               ))
+            )
